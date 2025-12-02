@@ -23,26 +23,6 @@ hotel-service/
 - **Сборка**: Maven 3.9+
 - **Контейнеризация**: Docker, Docker Compose
 
-## Структура данных
-
-### Отель (Hotel)
-| Поле | Тип | Обязательное | Описание |
-|------|-----|--------------|----------|
-| id | Long | Авто | Идентификатор |
-| name | String | Да | Название отеля |
-| address | Address | Да | Адрес отеля |
-| category | Enum | Нет | Категория (*, **, ***, ****, *****) |
-| notes | String | Нет | Заметки |
-
-### Адрес (Address)
-| Поле | Тип | Обязательное | Описание |
-|------|-----|--------------|----------|
-| id | Long | Авто | Идентификатор |
-| postalCode | String | Нет | Индекс |
-| city | String | Да | Город |
-| street | String | Да | Улица |
-| building | String | Да | Дом |
-
 ## Быстрый старт
 
 ### Предварительные требования
@@ -210,35 +190,6 @@ $WILDFLY_HOME/bin/jboss-cli.sh --connect
 reload
 ```
 
-## Архитектура взаимодействия
-
-```
-┌─────────────────┐     Remote EJB     ┌─────────────────┐     JPA      ┌─────────────┐
-│  Quarkus REST   │ ◄─────────────────► │    WildFly      │ ◄──────────► │   MariaDB   │
-│  (Port 8081)    │                     │   (Port 8080)   │              │  (Port 3306)│
-│                 │                     │                 │              │             │
-│  HotelResource  │                     │ HotelServiceBean│              │   hoteldb   │
-│        │        │                     │        │        │              │             │
-│        ▼        │                     │        ▼        │              │             │
-│ EjbClientProducer                     │    HotelDAO     │              │             │
-└─────────────────┘                     └─────────────────┘              └─────────────┘
-```
-
-## EJB Интерфейсы
-
-### HotelServiceRemote / HotelServiceLocal
-
-```java
-public interface HotelServiceRemote {
-    PageResponse<HotelDTO> findAll(PageRequest pageRequest);
-    Optional<HotelDTO> findById(Long id);
-    HotelDTO create(HotelDTO hotelDTO);
-    HotelDTO update(Long id, HotelDTO hotelDTO);
-    boolean delete(Long id);
-    long count();
-}
-```
-
 ## Тестирование
 
 ### Запуск тестов
@@ -263,17 +214,6 @@ curl -X POST http://localhost:8081/api/v1/hotels \
 # Удалить отель
 curl -X DELETE http://localhost:8081/api/v1/hotels/1
 ```
-
-## Категории отелей
-
-| Enum | Отображение |
-|------|-------------|
-| ONE_STAR | * |
-| TWO_STARS | ** |
-| THREE_STARS | *** |
-| FOUR_STARS | **** |
-| FIVE_STARS | ***** |
-
 ## Лицензия
 
 MIT License
