@@ -1,0 +1,38 @@
+# Идея
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Maven
+target/
+
+# Gradle
+build/
+.gradle/
+
+# Логи
+*.log
+
+# Файлы сборки
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Файлы ОС
+.DS_Store
+Thumbs.db
+
+# Временные файлы
+*.tmp
+*.temp
+
+# Настройки окружения
+.env
+.env.local
+
+# Системные файлы
+.vscode/

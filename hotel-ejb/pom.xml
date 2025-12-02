@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ru.example.hotel</groupId>
+        <artifactId>hotel-service-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>hotel-ejb</artifactId>
+    <packaging>ejb</packaging>
+
+    <name>Hotel EJB Implementation</name>
+    <description>EJB implementation with JPA entities and DAO</description>
+
+    <dependencies>
+        <!-- API Module -->
+        <dependency>
+            <groupId>ru.example.hotel</groupId>
+            <artifactId>hotel-ejb-api</artifactId>
+        </dependency>
+
+        <!-- Jakarta EE -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>4.0</ejbVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

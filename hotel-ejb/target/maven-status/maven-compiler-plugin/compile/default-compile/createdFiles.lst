@@ -1,0 +1,7 @@
+ru\example\hotel\ejb\entity\Hotel$HotelBuilder.class
+ru\example\hotel\ejb\dao\HotelDAO.class
+ru\example\hotel\ejb\entity\Address.class
+ru\example\hotel\ejb\entity\Hotel.class
+ru\example\hotel\ejb\service\HotelServiceBean.class
+ru\example\hotel\ejb\entity\Address$AddressBuilder.class
+ru\example\hotel\ejb\mapper\HotelMapper.class

@@ -1,0 +1,11 @@
+ru\example\hotel\api\dto\AddressDTO$AddressDTOBuilder.class
+ru\example\hotel\api\dto\PageRequest$PageRequestBuilder.class
+ru\example\hotel\api\service\HotelServiceLocal.class
+ru\example\hotel\api\dto\HotelDTO$HotelDTOBuilder.class
+ru\example\hotel\api\dto\HotelDTO.class
+ru\example\hotel\api\dto\AddressDTO.class
+ru\example\hotel\api\dto\PageRequest.class
+ru\example\hotel\api\dto\HotelCategory.class
+ru\example\hotel\api\service\HotelServiceRemote.class
+ru\example\hotel\api\dto\PageResponse.class
+ru\example\hotel\api\dto\PageResponse$PageResponseBuilder.class

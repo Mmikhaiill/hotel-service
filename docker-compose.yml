@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # MariaDB Database
+  mariadb:
+    image: mariadb:10.11
+    container_name: hotel-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: hoteldb
+      MYSQL_USER: hotel
+      MYSQL_PASSWORD: hotel123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - hotel-network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # WildFly Application Server with EJB
+  wildfly:
+    build:
+      context: ./docker/wildfly
+      dockerfile: Dockerfile
+    container_name: hotel-wildfly
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_NAME: hoteldb
+      DB_USER: hotel
+      DB_PASSWORD: hotel123
+    ports:
+      - "8080:8080"   # HTTP
+      - "9990:9990"   # Management Console
+      - "8787:8787"   # Debug
+    volumes:
+      - ./hotel-ear/target/hotel-app.ear:/opt/jboss/wildfly/standalone/deployments/hotel-app.ear
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - hotel-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Quarkus REST API
+  quarkus-rest:
+    build:
+      context: .
+      dockerfile: docker/quarkus/Dockerfile
+    container_name: hotel-quarkus-rest
+    environment:
+      WILDFLY_HOST: wildfly
+      WILDFLY_PORT: 8080
+      QUARKUS_HTTP_PORT: 8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      wildfly:
+        condition: service_healthy
+    networks:
+      - hotel-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  hotel-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:

@@ -1,0 +1,5 @@
+ru\example\hotel\rest\exception\ErrorResponse$ErrorResponseBuilder.class
+ru\example\hotel\rest\exception\ErrorResponse.class
+ru\example\hotel\rest\exception\GlobalExceptionHandler.class
+ru\example\hotel\rest\client\EjbClientProducer.class
+ru\example\hotel\rest\resource\HotelResource.class

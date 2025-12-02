@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/ejb-jar_4_0.xsd"
+         version="4.0">
+
+    <display-name>Hotel EJB Module</display-name>
+    
+    <enterprise-beans>
+        <session>
+            <ejb-name>HotelServiceBean</ejb-name>
+            <business-local>ru.example.hotel.api.service.HotelServiceLocal</business-local>
+            <business-remote>ru.example.hotel.api.service.HotelServiceRemote</business-remote>
+            <ejb-class>ru.example.hotel.ejb.service.HotelServiceBean</ejb-class>
+            <session-type>Stateless</session-type>
+            <transaction-type>Container</transaction-type>
+        </session>
+    </enterprise-beans>
+
+</ejb-jar>

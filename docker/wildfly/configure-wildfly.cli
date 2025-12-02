@@ -1,0 +1,38 @@
+# WildFly CLI Configuration Script
+# Configures MariaDB datasource and EJB remoting
+
+embed-server --server-config=standalone-full.xml --std-out=echo
+
+# Add MariaDB JDBC Driver
+/subsystem=datasources/jdbc-driver=mariadb:add(driver-name=mariadb,driver-module-name=org.mariadb.jdbc,driver-class-name=org.mariadb.jdbc.Driver)
+
+# Add Datasource for Hotel database
+/subsystem=datasources/data-source=HotelDS:add( \
+    jndi-name=java:jboss/datasources/HotelDS, \
+    driver-name=mariadb, \
+    connection-url=jdbc:mariadb://${env.DB_HOST:localhost}:${env.DB_PORT:3306}/${env.DB_NAME:hoteldb}, \
+    user-name=${env.DB_USER:hotel}, \
+    password=${env.DB_PASSWORD:hotel123}, \
+    min-pool-size=5, \
+    max-pool-size=20, \
+    pool-prefill=true, \
+    valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker, \
+    exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter \
+)
+
+# Enable statistics for datasource
+/subsystem=datasources/data-source=HotelDS:write-attribute(name=statistics-enabled,value=true)
+
+# Configure EJB remote access
+/subsystem=ejb3/service=remote:write-attribute(name=connectors, value=[http-remoting-connector])
+
+# Enable EJB statistics
+/subsystem=ejb3:write-attribute(name=statistics-enabled, value=true)
+
+# Disable authentication for remoting connector
+/subsystem=remoting/http-connector=http-remoting-connector:undefine-attribute(name=sasl-authentication-factory)
+
+# Configure transaction timeout (5 minutes)
+/subsystem=transactions:write-attribute(name=default-timeout, value=300)
+
+stop-embedded-server
